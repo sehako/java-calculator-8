@@ -21,4 +21,17 @@ class DelimiterParserTest {
 
         assertArrayEquals(new String[]{"1", "2", "3"}, result);
     }
+
+    @Test
+    @DisplayName("사용자가 커스텀 구분자를 입력하면 이를 기본 구분자에 포함하여 숫자를 추출한다.")
+    public void customParserTest() {
+        // given
+        String expression = "//;\n//w\n1w2;3";
+
+        // when
+        String[] result = parser.parse(expression);
+
+        // then
+        assertArrayEquals(new String[]{"1", "2", "3"}, result);
+    }
 }

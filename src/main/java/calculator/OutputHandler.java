@@ -11,8 +11,4 @@ public class OutputHandler {
     public static void printCalculateResult(int number) {
         System.out.println(RESULT_MESSAGE + number);
     }
-
-    public static void printErrorMessage(String errorMessage) {
-        System.out.println(errorMessage);
-    }
 }

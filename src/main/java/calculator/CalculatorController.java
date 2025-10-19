@@ -12,11 +12,7 @@ public class CalculatorController {
     public void start() {
         OutputHandler.printGuideMessage();
         String input = Console.readLine();
-        try {
-            int result = calculator.calculate(input);
-            OutputHandler.printCalculateResult(result);
-        } catch (IllegalArgumentException e) {
-            OutputHandler.printErrorMessage(e.getMessage());
-        }
+        int result = calculator.calculate(input);
+        OutputHandler.printCalculateResult(result);
     }
 }

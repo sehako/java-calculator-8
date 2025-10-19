@@ -34,4 +34,18 @@ class DelimiterParserTest {
         // then
         assertArrayEquals(new String[]{"1", "2", "3"}, result);
     }
+
+    @Test
+    @DisplayName("사용자가 아무런 입력도 하지 않거나 커스텀 구분자만 지정한다면 추출되는 숫자는 없다.")
+    public void blankInputTest() {
+        // given
+//        String expression = "      ";
+        String expression = "//;\n          ";
+
+        // when
+        String[] result = parser.parse(expression);
+
+        // then
+        assertArrayEquals(new String[]{}, result);
+    }
 }

@@ -9,6 +9,10 @@ public class DelimiterParser {
     private static final String CUSTOM_DELIMITER_SUFFIX = "\n";
 
     public String[] parse(String stringExpression) {
+        if (isBlankExpression(stringExpression)) {
+            return new String[]{};
+        }
+
         if (hasCustomDelimiter(stringExpression)) {
             return parseCustomDelimiterExpression(stringExpression);
         }
@@ -27,9 +31,17 @@ public class DelimiterParser {
         String customDelimiterString = extractDelimiterString(stringExpression, endOfCustomDelimiter);
         String expression = extractExpression(stringExpression, endOfCustomDelimiter);
 
+        if (isBlankExpression(expression)) {
+            return new String[]{};
+        }
+
         String customDelimiterRegex = buildCustomDelimiterRegex(customDelimiterString);
 
         return expression.split(customDelimiterRegex);
+    }
+
+    private boolean isBlankExpression(String expression) {
+        return expression.isBlank();
     }
 
     private String extractDelimiterString(String expression, int endOfCustomDelimiter) {

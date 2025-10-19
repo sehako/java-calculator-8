@@ -34,4 +34,16 @@ class StringCalculatorTest {
         assertThat(result).isEqualTo(12);
     }
 
+    @Test
+    @DisplayName("사용자가 아무런 수식을 입력하지 않거나 공백만 입력하면 계산 결과가 0이 된다.")
+    public void blankExpressionTest() {
+        // given
+        String expression = "          ";
+
+        // when
+        int result = calculator.calculate(expression);
+
+        // then
+        assertThat(result).isEqualTo(0);
+    }
 }

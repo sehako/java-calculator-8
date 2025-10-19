@@ -26,6 +26,7 @@ public class DelimiterParser {
     }
 
     private String[] parseCustomDelimiterExpression(String stringExpression) {
+        stringExpression = stringExpression.replace("\\n", CUSTOM_DELIMITER_SUFFIX);
         int endOfCustomDelimiter = stringExpression.lastIndexOf(CUSTOM_DELIMITER_SUFFIX);
         endOfCustomDelimiter += CUSTOM_DELIMITER_SUFFIX.length();
 
@@ -75,7 +76,7 @@ public class DelimiterParser {
 
     private void validateDelimiter(String delimiterString) {
         if (!Pattern.matches("^(//.*\n)+$", delimiterString)) {
-            throw new IllegalArgumentException("잘못된 구분자 지정 방식입니다. (';' 지정: //;\\n)");
+            throw new IllegalArgumentException("잘못된 구분자 지정 방식입니다. (';' 지정 예시: //;\\n)");
         }
     }
 }

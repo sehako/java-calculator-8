@@ -2,7 +2,8 @@ package calculator;
 
 public class Application {
     public static void main(String[] args) {
-        StringCalculator calculator = new StringCalculator();
+        DelimiterParser delimiterParser = new DelimiterParser();
+        StringCalculator calculator = new StringCalculator(delimiterParser);
         CalculatorController calculatorController = new CalculatorController(calculator);
         calculatorController.start();
     }

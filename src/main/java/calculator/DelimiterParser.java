@@ -1,59 +1,61 @@
 package calculator;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class DelimiterParser {
     private static final String DEFAULT_DELIMITER = ":|,";
+    private static final String CUSTOM_DELIMITER_PREFIX = "//";
+    private static final String CUSTOM_DELIMITER_SUFFIX = "\n";
 
     public String[] parse(String stringExpression) {
         if (hasCustomDelimiter(stringExpression)) {
             return parseCustomDelimiterExpression(stringExpression);
         }
+
         return stringExpression.split(DEFAULT_DELIMITER);
     }
 
     private boolean hasCustomDelimiter(String stringExpression) {
-        return stringExpression.startsWith("//");
+        return stringExpression.startsWith(CUSTOM_DELIMITER_PREFIX);
     }
 
     private String[] parseCustomDelimiterExpression(String stringExpression) {
-        String[] lines = stringExpression.split("\n");
+        int endOfCustomDelimiter = stringExpression.lastIndexOf(CUSTOM_DELIMITER_SUFFIX);
+        endOfCustomDelimiter += CUSTOM_DELIMITER_SUFFIX.length();
 
-        StringBuilder delimiterBuilder = new StringBuilder(DEFAULT_DELIMITER);
-        StringBuilder expressionBuilder = new StringBuilder();
+        String customDelimiterString = extractDelimiterString(stringExpression, endOfCustomDelimiter);
+        String expression = extractExpression(stringExpression, endOfCustomDelimiter);
 
-        for (String line : lines) {
-            appendDelimiter(delimiterBuilder, line);
-            extractExpression(expressionBuilder, line);
-        }
+        String customDelimiterRegex = buildCustomDelimiterRegex(customDelimiterString);
 
-        String expression = expressionBuilder.toString();
-        String delimiter = delimiterBuilder.toString();
-
-        return expression.split(delimiter);
+        return expression.split(customDelimiterRegex);
     }
 
-
-    private void appendDelimiter(StringBuilder delimiterBuilder, String customDelimiterString) {
-        if (!hasCustomDelimiter(customDelimiterString)) {
-            return;
-        }
-
-        String delimiter = extractCustomDelimiter(customDelimiterString);
-
-        delimiterBuilder.append("|");
-        delimiterBuilder.append(Pattern.quote(delimiter));
+    private String extractDelimiterString(String expression, int endOfCustomDelimiter) {
+        return expression.substring(0, endOfCustomDelimiter);
     }
 
-    private void extractExpression(StringBuilder expressionBuilder, String expression) {
-        if (hasCustomDelimiter(expression)) {
-            return;
-        }
-
-        expressionBuilder.append(expression);
+    private String extractExpression(String expression, int endOfCustomDelimiter) {
+        return expression.substring(endOfCustomDelimiter);
     }
 
-    private String extractCustomDelimiter(String delimiter) {
-        return delimiter.substring(2);
+    private String buildCustomDelimiterRegex(String customDelimiterString) {
+        StringBuilder customDelimiterBuilder = new StringBuilder(DEFAULT_DELIMITER);
+        String[] customDelimiterArray = customDelimiterString.split(CUSTOM_DELIMITER_SUFFIX);
+
+        Arrays.stream(customDelimiterArray).forEach(delimiter -> {
+            customDelimiterBuilder.append("|");
+            customDelimiterBuilder.append(Pattern.quote(extractCustomDelimiter(delimiter)));
+        });
+
+        return customDelimiterBuilder.toString();
+    }
+
+    private String extractCustomDelimiter(String delimiterString) {
+        int start = delimiterString.indexOf(CUSTOM_DELIMITER_PREFIX);
+        start += CUSTOM_DELIMITER_PREFIX.length();
+
+        return delimiterString.substring(start);
     }
 }

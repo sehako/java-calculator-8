@@ -11,9 +11,9 @@ public class StringCalculator {
 
     public int calculate(String input) {
         String[] numbers = delimiterParser.parse(input);
-        NumberValidator.validate(numbers);
 
         return Arrays.stream(numbers)
+                .peek(NumberValidator::validate)
                 .mapToInt(Integer::parseInt)
                 .sum();
     }

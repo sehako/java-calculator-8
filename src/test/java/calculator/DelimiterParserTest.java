@@ -60,6 +60,8 @@ class DelimiterParserTest {
         // then
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> parser.parse(expression));
+                () -> parser.parse(expression),
+                "잘못된 구분자 지정 방식입니다. (';' 지정: //;\\n)"
+        );
     }
 }

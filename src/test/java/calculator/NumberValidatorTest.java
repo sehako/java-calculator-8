@@ -27,7 +27,10 @@ class NumberValidatorTest {
 
         // when
         // then
-        assertInvalidNumbers(numbers);
+        assertInvalidNumbers(
+                numbers,
+                "수식에 공백이 존재합니다."
+        );
     }
 
     @Test
@@ -38,7 +41,10 @@ class NumberValidatorTest {
 
         // when
         // then
-        assertInvalidNumbers(numbers);
+        assertInvalidNumbers(
+                numbers,
+                "음수는 계산할 수 없습니다."
+        );
     }
 
     @Test
@@ -49,13 +55,17 @@ class NumberValidatorTest {
 
         // when
         // then
-        assertInvalidNumbers(numbers);
+        assertInvalidNumbers(
+                numbers,
+                "숫자 이외에 문자, 지정되지 않은 구분자, 중복 구분자가 존재합니다."
+        );
     }
 
-    private void assertInvalidNumbers(String[] numbers) {
+    private void assertInvalidNumbers(String[] numbers, String expectedMessage) {
         assertThrows(
                 IllegalArgumentException.class,
-                () -> NumberValidator.validate(numbers)
+                () -> NumberValidator.validate(numbers),
+                expectedMessage
         );
     }
 }

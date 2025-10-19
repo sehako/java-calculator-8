@@ -21,7 +21,8 @@ public class DelimiterParser {
     }
 
     private boolean hasCustomDelimiter(String stringExpression) {
-        return stringExpression.startsWith(CUSTOM_DELIMITER_PREFIX);
+        return stringExpression.startsWith(CUSTOM_DELIMITER_PREFIX)
+                || stringExpression.contains(CUSTOM_DELIMITER_SUFFIX);
     }
 
     private String[] parseCustomDelimiterExpression(String stringExpression) {
@@ -35,8 +36,9 @@ public class DelimiterParser {
             return new String[]{};
         }
 
-        String customDelimiterRegex = buildCustomDelimiterRegex(customDelimiterString);
+        validateDelimiter(customDelimiterString);
 
+        String customDelimiterRegex = buildCustomDelimiterRegex(customDelimiterString);
         return expression.split(customDelimiterRegex);
     }
 
@@ -69,5 +71,11 @@ public class DelimiterParser {
         start += CUSTOM_DELIMITER_PREFIX.length();
 
         return delimiterString.substring(start);
+    }
+
+    private void validateDelimiter(String delimiterString) {
+        if (!Pattern.matches("^(//.*\\n)+$", delimiterString)) {
+            throw new IllegalArgumentException();
+        }
     }
 }

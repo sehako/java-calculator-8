@@ -2,6 +2,7 @@ package calculator;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -47,5 +48,18 @@ class DelimiterParserTest {
 
         // then
         assertArrayEquals(new String[]{}, result);
+    }
+
+    @Test
+    @DisplayName("사용자가 구분자 선언문을 잘못 입력하면 오륙가 발생한다.")
+    public void invalidCustomDelimiterInputTest() {
+        // given
+        String expression = "/;\n//w\n1w2;3";
+
+        // when
+        // then
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> parser.parse(expression));
     }
 }

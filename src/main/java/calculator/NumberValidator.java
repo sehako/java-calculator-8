@@ -16,7 +16,7 @@ public class NumberValidator {
         }
 
         if (!ONLY_DIGITS.matcher(number).matches()) {
-            throw new IllegalArgumentException("숫자 이외에 문자, 지정되지 않은 구분자, 중복 구분자가 존재합니다.");
+            throw new IllegalArgumentException("수식에 문자, 지정되지 않은 구분자, 중복 구분자가 존재합니다.");
         }
     }
 }
